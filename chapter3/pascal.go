@@ -8,9 +8,6 @@ import (
 )
 
 func pascalsTriangleAt(n int) []int {
-	if n < 0 {
-		return nil
-	}
 	x := make([]int, n+1)
 	x[0] = 1
 	x[n] = 1
