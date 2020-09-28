@@ -64,7 +64,7 @@ func NewDeck() *Deck {
 // Shuffle randomizes the order of the PlayingCards in the Deck
 // The algorithm is the Fisher–Yates shuffle, see https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
 // It chooses a random card to place at each index from cards not already chosen, liking pulling cards from a hat
-func Shuffle(deck *Deck) {
+func (deck *Deck) Shuffle() {
 	deck.index = 0
 	for i := range deck.cards {
 		swap := rand.Intn(len(deck.cards) - i)
@@ -73,22 +73,22 @@ func Shuffle(deck *Deck) {
 }
 
 // DealOneCard returns a PlayingCard off the top of the Deck
-func DealOneCard(deck *Deck) PlayingCard {
+func (deck *Deck) DealOneCard() PlayingCard {
 	card := deck.cards[deck.index]
 	deck.index++
 	return card
 }
 
 // String representation of a PlayingCard
-func String(card PlayingCard) string {
+func (card PlayingCard) String() string {
 	return fmt.Sprintf("%v of %v", card.faceValue, card.suit)
 }
 
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	var deck = NewDeck()
-	Shuffle(deck)
+	deck.Shuffle()
 	for range deck.cards {
-		fmt.Printf("Dealt the %v\n", String(DealOneCard(deck)))
+		fmt.Printf("Dealt the %v\n", deck.DealOneCard().String())
 	}
 }
