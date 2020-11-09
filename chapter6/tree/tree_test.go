@@ -10,17 +10,35 @@ import (
 func TestSameIdentical(t *testing.T) {
 	t1 := tree.New(1)
 	t2 := tree.New(1)
-	same := Same(t1, t2)
-	if !same {
+	if !Same(t1, t2) {
 		t.Fatalf(`Same(t1, t2) is false for identical trees, want true`)
+	}
+}
+
+func TestSameObject(t *testing.T) {
+	t1 := tree.New(1)
+	if !Same(t1, t1) {
+		t.Fatalf(`Same(t1, t2) is false for same tree objects, want true`)
+	}
+}
+
+func TestSameNilTrees(t *testing.T) {
+	t1 := tree.New(1)
+	if Same(nil, t1) {
+		t.Fatalf(`Same(t1, t2) is true for left nil tree, want false`)
+	}
+	if Same(t1, nil) {
+		t.Fatalf(`Same(t1, t2) is true for right nil tree, want false`)
+	}
+	if !Same(nil, nil) {
+		t.Fatalf(`Same(t1, t2) is false for nil trees, want true`)
 	}
 }
 
 func TestSameSizeDifferent(t *testing.T) {
 	t1 := tree.New(1)
 	t2 := tree.New(2)
-	same := Same(t1, t2)
-	if same {
+	if Same(t1, t2) {
 		t.Fatalf(`Same(t1, t2) is true for same size different value trees, want false`)
 	}
 }
@@ -29,8 +47,7 @@ func TestSameLeftTreeBigger(t *testing.T) {
 	t1 := tree.New(1)
 	Insert(t1, 11)
 	t2 := tree.New(1)
-	same := Same(t1, t2)
-	if same {
+	if Same(t1, t2) {
 		t.Fatalf(`Same(t1, t2) is true for different value trees, left tree bigger, want false`)
 	}
 }
@@ -39,8 +56,7 @@ func TestSameRightTreeBigger(t *testing.T) {
 	t1 := tree.New(1)
 	Insert(t1, 11)
 	t2 := tree.New(1)
-	same := Same(t2, t1)
-	if same {
+	if Same(t2, t1) {
 		t.Fatalf(`Same(t1, t2) is true for different value trees, left tree bigger, want false`)
 	}
 }
@@ -52,8 +68,7 @@ func TestSameBigTrees(t *testing.T) {
 		Insert(t1, i)
 		Insert(t2, i)
 	}
-	same := Same(t2, t1)
-	if !same {
+	if !Same(t2, t1) {
 		t.Fatalf(`Same(t1, t2) is false for two identical big trees, want true`)
 	}
 }
@@ -66,8 +81,7 @@ func TestSameBigRandomTrees(t *testing.T) {
 		Insert(t1, rand.Int())
 		Insert(t2, rand.Int())
 	}
-	same := Same(t2, t1)
-	if same {
+	if Same(t2, t1) {
 		t.Fatalf(`Same(t1, t2) is true for two different big trees, want false`)
 	}
 }
