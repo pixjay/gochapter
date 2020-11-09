@@ -5,7 +5,7 @@ import (
 )
 
 // Walk walks the tree t sending all values from the tree to the channel ch.
-func Walk(t *tree.Tree, ch chan int) {
+func Walk(t *tree.Tree, ch chan<- int) {
 	if t == nil {
 		return
 	}
