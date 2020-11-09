@@ -2,17 +2,21 @@ package main
 
 import (
 	"fmt"
-	"time"
 	"os"
+	"time"
 	"strconv"
 )
 
 func pascalsTriangleAt(n int) []int {
 	x := make([]int, n+1)
+	return pascalsTriangleAtMemo(n, x)
+}
+
+func pascalsTriangleAtMemo(n int, x []int) []int {
 	x[0] = 1
 	x[n] = 1
 	if n > 1 {
-		y := pascalsTriangleAt(n-1)
+		y := pascalsTriangleAtMemo(n-1, x[1:n+1])
 		for i := 1; i < n; i++ {
 			x[i] = y[i-1] + y[i]
 		}
@@ -34,31 +38,34 @@ func pascalsTriangleAtNonRecursive(n int) []int {
 func main() {
 	count := 10
 	if len(os.Args) > 1 {
-		countArg, _ := strconv.ParseInt(os.Args[1], 10, 64)
-		count = int(countArg)
+	        countArg, _ := strconv.ParseInt(os.Args[1], 10, 64)
+	        count = int(countArg)
 	}
 
 	fmt.Println("Recursive: ")
 	for i := 0; i < 10; i++ {
-		fmt.Printf("%v\n", pascalsTriangleAt(i))
+	        fmt.Printf("%v\n", pascalsTriangleAt(i))
 	}
 
 	fmt.Println("Non-Recursive: ")
 	for i := 0; i < 10; i++ {
-		fmt.Printf("%v\n", pascalsTriangleAtNonRecursive(i))
+	        fmt.Printf("%v\n", pascalsTriangleAtNonRecursive(i))
 	}
 
 	start := time.Now()
 	for i := 0; i < count; i++ {
-		pascalsTriangleAt(i)
+	        pascalsTriangleAt(i)
 	}
 	t := time.Now()
 	fmt.Printf("    Recursive time elapsed running %v executions: %v\n", count, t.Sub(start))
 
 	start = time.Now()
 	for i := 0; i < count; i++ {
-		pascalsTriangleAtNonRecursive(i)
+	        pascalsTriangleAtNonRecursive(i)
 	}
 	t = time.Now()
 	fmt.Printf("Non-Recursive time elapsed running %v executions: %v\n", count, t.Sub(start))
+	
+	fmt.Printf("%v\n", pascalsTriangleAtNonRecursive(10))
+	fmt.Printf("%v\n", pascalsTriangleAt(10))
 }
