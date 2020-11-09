@@ -1,6 +1,7 @@
 package tree
 
 import (
+	"fmt"
 	"golang.org/x/tour/tree"
 )
 
@@ -30,6 +31,10 @@ func Same(t1, t2 *tree.Tree) bool {
 		v1, e1 := <-c1
 		v2, e2 := <-c2
 		if v1 != v2 || e1 != e2 {
+			for range c1 {
+			}
+			for range c2 {
+			}
 			return false
 		} else if !e1 || !e2 {
 			break
