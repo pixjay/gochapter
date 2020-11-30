@@ -17,3 +17,5 @@
 # Visual Studio Code
 gochapter.code-workspace
 
+# go build main.go binaries
+main
